@@ -1,0 +1,41 @@
+<server description="defaultServer">
+
+    <featureManager>
+        <!-- Puedes usar webProfile-11.0 si quieres todas las features incluidas -->
+        <feature>restfulWS-4.0</feature>
+        <feature>jsonb-3.0</feature>
+        <feature>cdi-4.1</feature>
+        <feature>persistence-4.0</feature>
+        <feature>jdbc-4.3</feature> 
+        <feature>soap-1.3</feature>
+    </featureManager>
+
+    <!-- Configuración del DataSource MariaDB -->
+    <dataSource id="mariadbDS" jndiName="jdbc/mariadbDS">
+        <jdbcDriver libraryRef="mariadbLib"/>
+        <properties 
+            url="jdbc:mariadb://localhost:3306/citasdb"
+            user="root"
+            password="admin"/>
+    </dataSource>
+
+    <!-- Librería del driver de MariaDB -->
+    <library id="mariadbLib">
+        <fileset dir="${server.config.dir}/lib" includes="mariadb-java-client*.jar"/>
+    </library>
+
+    <!-- Configuración de seguridad básica -->
+    <basicRegistry id="defaultBasicRegistry" realm="BasicRealm">
+        <user name="username" password="password"/>
+    </basicRegistry>
+
+    <!-- Keystore por defecto -->
+    <keyStore id="defaultKeyStore" password="password"/>
+
+    <!-- Endpoints HTTP y HTTPS -->
+    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="9080" httpsPort="9443"/>
+
+    <!-- Despliegue de tu aplicación -->
+    <webApplication location="citas.war" contextRoot="/"/>
+
+</server>
